@@ -1,4 +1,4 @@
-package com.example.hardwaremonitor
+package com.example.hardwaremonitor.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
