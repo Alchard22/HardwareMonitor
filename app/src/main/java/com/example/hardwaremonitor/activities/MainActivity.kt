@@ -1,5 +1,6 @@
 package com.example.hardwaremonitor.activities
 
+import TemperatureMonitor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,8 +19,12 @@ import com.example.hardwaremonitor.objects.TemperatureStore
 import com.example.hardwaremonitor.ui.theme.HardwareMonitorTheme
 
 class MainActivity : ComponentActivity() {
+    private var temperatureMonitor: TemperatureMonitor? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        temperatureMonitor = TemperatureMonitor(this)
+
         enableEdgeToEdge()
         setContent {
             HardwareMonitorTheme {
@@ -33,7 +38,18 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    override fun onResume() {
+        super.onResume()
+        temperatureMonitor?.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        temperatureMonitor?.stop()
+    }
 }
+
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
