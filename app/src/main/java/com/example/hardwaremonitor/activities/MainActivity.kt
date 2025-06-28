@@ -100,7 +100,7 @@ fun TemperatureDisplay() {
         Spacer(Modifier.height(20.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.fillMaxWidth()) {
 //            TemperatureGauge(ambientTemp, hotThreshold = 35f, maxTemp = 60f)
-            TemperatureGauge("Battery Temperature",batteryTemp, hotThreshold = 45f, maxTemp = 70f)
+            TemperatureGauge("Battery Temperature",batteryTemp, hotThreshold = 45f, maxTemp = 60f)
             TemperatureGauge("CPU Temperature", cpuTemp, hotThreshold = 60f, maxTemp = 100f)
         }
     }
@@ -115,13 +115,14 @@ fun TemperatureGauge(
     maxTemp: Float = 80f,
     modifier: Modifier = Modifier
 ) {
+    val minTemp = 15f
     val displayTemp = temperature ?: 0f
-    val progress = (displayTemp / maxTemp).coerceIn(0f, 1f)
+    val progress = ((displayTemp - minTemp) / (maxTemp - minTemp)).coerceIn(0f, 1f)
 
     val gaugeColor = lerp(
         start = Color.Blue,
         stop = Color.Red,
-        fraction = (displayTemp / hotThreshold).coerceIn(0f, 1f)
+        fraction = ((displayTemp - minTemp) / (hotThreshold - minTemp)).coerceIn(0f, 1f)
     )
     Column {
         Text(title, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Justify)
